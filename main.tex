@@ -1,0 +1,654 @@
+\documentclass[11pt,reqno]{amsart}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{microtype}
+\usepackage{xcolor}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[colorlinks=true,breaklinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black]{hyperref}
+
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\disc}{\operatorname{disc}}
+\newcommand{\rev}{\operatorname{rev}}
+\newcommand{\gb}[3]{\genfrac{[}{]}{0pt}{}{#1}{#2}_{#3}}
+\newcommand{\res}[1]{[#1]_N}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\M}{\mathcal{M}}
+
+\title[Signed Weyl Resolvent Banks for Discrete Fourier Matrices]{Signed Weyl Resolvent Banks for Discrete Fourier Matrices:\\Small-Order Exactness and Linear Complexity}
+
+\author[D. Kuttymbek]{Daniyar Kuttymbek}
+\address{Astana, Kazakhstan}
+\email{daniyar.kuttymbek@gmail.com}
+
+\author[A. Kuttymbek]{Adilkhan Kuttymbek}
+\address{Astana, Kazakhstan}
+\email{adilkhan.kuttymbek@gmail.com}
+
+\author[D. Kuttymbek]{Dayana Kuttymbek}
+\address{Astana, Kazakhstan}
+\email{dayanamiu74@gmail.com}
+
+\author[A. Kolpenova]{Amina Kolpenova}
+\address{Astana, Kazakhstan}
+\email{aminakolpenova@gmail.com}
+
+\author[M. Kottumbekov]{Mukhammadali Kottumbekov}
+\address{Astana, Kazakhstan}
+\email{mukhammadalikottumbek@gmail.com}
+
+\date{\today}
+\subjclass[2020]{Primary 15A23, 15B05; Secondary 65T50, 11T06, 13P15}
+\keywords{Discrete Fourier matrix, Weyl--Heisenberg operators, cyclic resolvent banks, Gaussian binomials, Prony--Hankel rank, polynomial elimination, reverse GCD descent}
+
+\begin{document}
+
+\begin{abstract}
+Fix an odd integer $N\ge 3$, a field $k$ whose characteristic does not divide $N$, and a primitive $N$-th root of unity $q\in k$. On $k^N$, define the shift and clock operators $Se_i=e_{i+1}$, $Te_i=q^i e_i$ (indices modulo $N$) and the unnormalized negative Fourier matrix $(F_N)_{kt}=q^{-kt}$. A \emph{signed Weyl resolvent bank} of orientation $(\eps,\delta)\in\{+1,-1\}^2$ is a phase-weighted average
+\[
+B_{\eps,\delta}(\alpha,\beta;w)
+= \frac{1}{N}\sum_{j=0}^{N-1} w_j \bigl(I - \alpha S^\eps - \beta\zeta^j T^\delta\bigr)^{-1},
+\qquad \zeta = q^{\eps\delta},\quad \Delta = 1 - \alpha^N - \beta^N \ne 0,
+\]
+and $\M_k(N;q)$ denotes the minimum number of banks summing to $F_N$ over $k$.
+
+We establish four exact algebraic and complexity results for this representation grammar:
+\begin{enumerate}[label=(\arabic*),leftmargin=1.8em]
+\item \emph{Exact small-order minima:} For every primitive root of the indicated order,
+\[
+\M_{\C}(3;q) = 4,\qquad \M_{\C}(5;q) = 5,\qquad \M_{\C}(7;q) = 8,
+\]
+with order $3$ valid over every admissible field, order $5$ over every characteristic-zero field containing $q$, and order $7$ proved minimal over every characteristic-zero extension via a good-reduction B\'ezout certificate modulo $29$ and attained over an explicit cubic splitting field of $\Q(q)$. We also prove $\M_k(9;q)\ge 6$ in every admissible characteristic, establishing that four banks suffice in characteristic zero if and only if $N=3$.
+\item \emph{Matching $\Theta(N)$ growth:} For every odd $N\ge 3$ and every admissible field $k$,
+\[
+\max\bigl\{4,\; 2\lceil(N-1)/4\rceil\bigr\} \le \M_k(N;q) \le 4N,
+\]
+via signed-triangle support isolation and full-rank Fourier Hankel factorization on rows $b=\pm 1$.
+\item \emph{Uniform $5N/3 + O(1)$ upper bound in all admissible characteristics:} Introducing a first-order variable-coefficient cancellation operator built from the consecutive-factor ratio of the whole-left Fourier envelope denominator, together with a positive-characteristic separability certificate and quantitative guard-degree bound, we prove that for every odd $N\ge 23$, $d\ge 4$ with $N\ge 6d-2$, and every admissible characteristic (including characteristic $2$), $F_N$ is synthesized over a genuine algebraic splitting extension by at most $2(N-d)+2$ legal banks. Setting $d=\lfloor(N+2)/6\rfloor$ yields $B \le 2N - 2\lfloor(N+2)/6\rfloor + 2 = \frac{5}{3}N + O(1)$, improving the earlier $7N/4 + O(1)$ bound ($N\ge 8d-10$).
+\item \emph{Deterministic cubic-time coefficient generation:} Via an amortized reverse-GCD descent lemma for scalar-span coprime polynomial selection requiring $O((s+v)L^2)$ field operations and $O((s+v)L)$ inversions, we construct a legal monic degree-$(N-d)$ generator polynomial $g$ in the $N\ge 6d-2$ range deterministically in $O(N^3)$ coefficient-field operations, $O(N^2)$ inversions, and $O(N^2)$ storage (while explicitly separating and accounting for splitting-field, root-recovery, and warm application costs; no FFT speedup is claimed).
+\end{enumerate}
+\end{abstract}
+
+\maketitle
+
+\section{Introduction and main results}
+\label{sec:intro}
+
+Fix an odd integer $N\ge 3$, a field $k$ with $\operatorname{char}(k)\nmid N$, and a primitive $N$-th root of unity $q\in k$. On the standard basis $e_0,\ldots,e_{N-1}$ of $k^N$ (with indices taken modulo $N$ and $\res{a}\in\{0,\ldots,N-1\}$ denoting the canonical residue), define the cyclic shift, clock, Weyl basis, and unnormalized negative discrete Fourier matrix by
+\begin{equation}
+\label{eq:weyl-def}
+Se_i = e_{i+1},\qquad Te_i = q^i e_i,\qquad W_{a,b} = S^a T^b,\qquad (F_N)_{kt} = q^{-kt}.
+\end{equation}
+Fractions in exponents of $q$, such as $1/2$ or $1/4$, always denote multiplicative inverses modulo the odd integer $N$, never division by $2$ or $4$ in $k$.
+
+\begin{definition}[Signed Weyl resolvent bank]
+\label{def:bank}
+For an orientation $(\eps,\delta)\in\{+1,-1\}^2$, put $\zeta = q^{\eps\delta}$. A \emph{signed Weyl resolvent bank} is a matrix of the form
+\begin{equation}
+\label{eq:bank}
+B_{\eps,\delta}(\alpha,\beta;w)
+= \frac{1}{N}\sum_{j=0}^{N-1} w_j\bigl(I - \alpha S^\eps - \beta\zeta^j T^\delta\bigr)^{-1},
+\qquad \Delta = 1 - \alpha^N - \beta^N \ne 0,
+\end{equation}
+with $\alpha,\beta,w_0,\ldots,w_{N-1}\in k$. The orientation signs $(\eps,\delta)$ act as integer exponents ($S^{\pm 1}, T^{\pm 1}$), so all four orientations remain distinct even in characteristic $2$. A representation of $F_N$ is a finite sum of legal banks~\eqref{eq:bank}; each bank counts once even if some weights $w_j$ vanish, zero banks may be omitted, and no auxiliary diagonal gauges, alternate generators, derivative atoms, trace banks, or products of banks are permitted.
+\end{definition}
+
+Let $\M_k(N;q)$ denote the minimum number of legal banks~\eqref{eq:bank} whose sum equals $F_N$ over $k$. Our first main theorem determines $\M_{\C}(N;q)$ exactly for the first three odd orders and classifies all characteristic-zero orders where four banks suffice.
+
+\begin{theorem}[Exact small-order minima and four-bank classification]
+\label{thm:small}
+For every primitive root $q$ of the indicated order,
+\begin{equation}
+\label{eq:small-minima}
+\M_{\C}(3;q) = 4,\qquad \M_{\C}(5;q) = 5,\qquad \M_{\C}(7;q) = 8.
+\end{equation}
+More precisely:
+\begin{enumerate}[label=(\alph*),leftmargin=2em]
+\item $\M_k(3;q)=4$ over every field $k$ of characteristic not dividing $3$ containing $q$.
+\item $\M_k(5;q)=5$ over every characteristic-zero field $k$ containing $q$.
+\item $\M_k(7;q)\ge 8$ over every characteristic-zero extension field $k$ containing $q$, and attainment $\M_L(7;q)=8$ holds over the explicit cubic splitting field $L/\Q(q)$ of $g(t)=t^3+s_2 t-s_3$ in Section~\ref{sec:n7upper} (hence over $\C$).
+\item $\M_k(9;q)\ge 6$ over every field $k$ of characteristic not dividing $9$ containing $q$. Together with Theorem~\ref{thm:linear}, in characteristic zero four banks suffice if and only if $N=3$.
+\end{enumerate}
+\end{theorem}
+
+At arbitrary odd $N\ge 3$, the bank count grows linearly in $N$.
+
+\begin{theorem}[Matching $\Theta(N)$ bounds for all odd $N$]
+\label{thm:linear}
+For every odd integer $N\ge 3$ and every field $k$ with $\operatorname{char}(k)\nmid N$ containing a primitive $N$-th root $q$,
+\begin{equation}
+\label{eq:theta-N}
+\max\bigl\{4,\; 2\lceil(N-1)/4\rceil\bigr\} \le \M_k(N;q) \le 4N.
+\end{equation}
+\end{theorem}
+
+The coarse $4N$ upper bound of Theorem~\ref{thm:linear} applies to any $N\times N$ matrix by root-Vandermonde interpolation on the four signed triangles. Exploiting the quadratic chirp structure of the Fourier Weyl coefficients reduces the leading constant from $4$ to $5/3$ uniformly across all odd $N\ge 23$ and all admissible characteristics, improving an earlier $7/4$ envelope bound ($N\ge 8d-10$).
+
+\begin{theorem}[Uniform $5N/3 + O(1)$ upper bound in all admissible characteristics]
+\label{thm:five-thirds}
+Let $N\ge 23$ be odd, let $d\ge 4$ satisfy $N\ge 6d-2$, and set $m=N-d$. Let $k$ be any field with $\operatorname{char}(k)\nmid N$ containing a primitive $N$-th root $q$. There exists a monic squarefree degree-$m$ polynomial $g(t)$ with $g(0)\ne 0$ and full axis-matrix rank (with coefficients in $k$ when $k$ is infinite, or in $\F_{Q^2}$ when $k=\F_Q$) such that over its splitting field $L$, $F_N$ is a sum of at most $2m+2$ legal signed Weyl resolvent banks (the $m$ roots of $g$ in orientations $++$ and $--$, the single node $\alpha=1$ in orientations $-+$ and $+-$, and $\beta=1$ throughout). Taking $d=\lfloor(N+2)/6\rfloor$ yields, for every odd $N\ge 23$,
+\begin{equation}
+\label{eq:five-thirds}
+\M_L(N;q) \le 2N - 2\lfloor(N+2)/6\rfloor + 2 = \frac{5}{3}N + O(1),
+\end{equation}
+with splitting degree $[L:k]\le m!$ (infinite $k$) or $[L:\F_Q]\le 2m!$ (finite $k=\F_Q$).
+\end{theorem}
+
+Finally, we address the deterministic construction of the generator polynomial $g$ in Theorem~\ref{thm:five-thirds}. Replacing naive $O(N^4)$ coprime-combination loops by a reverse-GCD descent lemma yields a cubic deterministic coefficient stage.
+
+\begin{theorem}[Deterministic cubic-time coefficient generation]
+\label{thm:cubic}
+In the setting of Theorem~\ref{thm:five-thirds} ($N\ge 23$ odd, $d\ge 4$, $N\ge 6d-2$, $m=N-d$), assume a supplied coefficient field $k$ containing $q$ and a represented list of $2N$ distinct scalars in $k$ (automatically available in $\F_{Q^2}$ when $k=\F_Q$ since $Q\ge N+1$). Then a legal monic degree-$m$ polynomial $g$ satisfying $g(0)\ne 0$, $\gcd(g,g')=1$, and full axis rank $\rank X_N(g)=N$ can be constructed deterministically using
+\[
+O(N^3) \text{ field additions/multiplications},\qquad O(N^2) \text{ inversions},\qquad O(N^2) \text{ field elements of storage}.
+\]
+\end{theorem}
+
+\begin{remark}[Representation count versus FFT evaluation cost]
+\label{rem:cost-boundary}
+A signed Weyl resolvent bank~\eqref{eq:bank} is an algebraic representation unit packaging $N$ phase-indexed resolvents. Neither $\M_k(N;q)$ nor the cubic coefficient stage of Theorem~\ref{thm:cubic} yields a subquadratic FFT algorithm: instantiating a genuine splitting field of $g$ has degree up to $m!$ in the worst case, post-root amplitude/weight preparation uses $O(N^3)$ splitting-field operations, and a warm literal evaluation of $B$ banks uses $2BN^2$ multiplications and $2BN^2-BN-N$ additions ($O(N^3)$ when $B=\Theta(N)$). All theorems here concern exact algebraic synthesis complexity and deterministic coefficient generation, not faster Fourier transforms.
+\end{remark}
+
+The paper is organized as follows. Section~\ref{sec:algebra} records the quantum-binomial resolvent expansion and Fourier Weyl coefficients. Section~\ref{sec:support-linear} proves the four-orientation necessity lemma, the order-$3$ minimum, the $\Theta(N)$ bounds (Theorem~\ref{thm:linear}), and the order-$9$ lower bound. Section~\ref{sec:n5} establishes $\M_k(5;q)=5$. Section~\ref{sec:n7} establishes $\M_{\C}(7;q)=8$. Section~\ref{sec:five-thirds} introduces the first-order variable-coefficient envelope cancellation operator and proves Theorem~\ref{thm:five-thirds} in all admissible characteristics. Section~\ref{sec:cubic} proves the amortized reverse-GCD descent lemma and deduces Theorem~\ref{thm:cubic}. Section~\ref{sec:prior} compares these results with prior literature and lists open problems.
+
+\section{Quantum-binomial resolvent expansion and Weyl coefficients}
+\label{sec:algebra}
+
+For $0\le \ell\le n < N$ and a primitive $N$-th root $\zeta\in k$, define the Gaussian binomial coefficient
+\[
+\gb{n}{\ell}{\zeta} = \prod_{i=1}^{\ell} \frac{1 - \zeta^{n-\ell+i}}{1 - \zeta^i},
+\qquad \gb{n}{0}{\zeta} = 1.
+\]
+Every denominator factor $1-\zeta^i$ ($1\le i<N$) is nonzero, and every numerator factor is nonzero for $0\le\ell\le n<N$. Put $A = \alpha S^\eps$ and $D = \beta\zeta^j T^\delta$ with $\zeta = q^{\eps\delta}$. From $TS = qST$ we have $DA = \zeta AD$, so the noncommutative Gaussian-binomial theorem~\cite[Theorems~1--2]{HMS04}, \cite[Proposition~1]{Sch12} gives
+\[
+(A+D)^n = \sum_{\ell=0}^n \gb{n}{\ell}{\zeta} A^{n-\ell} D^\ell.
+\]
+At degree $n=N$, every mixed Gaussian binomial $\gb{N}{\ell}{\zeta}$ ($1\le\ell\le N-1$) vanishes because $1-\zeta^N=0$ while the denominators stay nonzero, leaving $X_j^N = (\alpha^N+\beta^N)I$ for $X_j := A+D$. Whenever $\Delta = 1-\alpha^N-\beta^N\ne 0$, direct multiplication on both sides by $I-X_j$ gives the exact two-sided inverse
+\begin{equation}
+\label{eq:resolvent-inv}
+(I - X_j)^{-1} = \Delta^{-1}\sum_{n=0}^{N-1} X_j^n.
+\end{equation}
+Setting $\gamma_\ell = N^{-1}\sum_{j=0}^{N-1} w_j\zeta^{j\ell}$ and $\eta_\ell = \beta^\ell\gamma_\ell/\Delta$, finite-character orthogonality converts~\eqref{eq:bank} into
+\begin{equation}
+\label{eq:bank-expansion}
+B_{\eps,\delta}(\alpha,\beta;w)
+= \sum_{\ell=0}^{N-1} \eta_\ell \sum_{r=0}^{N-1-\ell} \alpha^r \gb{r+\ell}{\ell}{\zeta} W_{\eps r,\delta\ell}.
+\end{equation}
+In lower-bound arguments we permit all $\eta_\ell\in k$ independently, which strictly enlarges the legal bank class (including $\beta=0$); in all upper constructions we take $\beta=1$ and $\alpha\ne 0$, so $\Delta=-\alpha^N\ne 0$ and any prescribed normalized amplitudes $h_\ell = \eta_\ell/C_N$ are realized by the exact raw weights
+\begin{equation}
+\label{eq:raw-weights}
+w_j = C_N \Delta \sum_{\ell=0}^{N-1} h_\ell q^{-\eps\delta j\ell}.
+\end{equation}
+
+The $N^2$ Weyl matrices $W_{a,b} = S^a T^b$ form a basis of $k^{N\times N}$ with trace pairing $\tr(W_{a,b}^{-1}W_{c,d}) = N\,\mathbf{1}_{(a,b)=(c,d)}$ (compare~\cite[Section~II.A--D]{Gro06}). Extracting the $(a,b)$-coefficient of $F_N$ by trace and completing the square modulo odd $N$ yields
+\begin{equation}
+\label{eq:fourier-weyl}
+\phi_N(a,b) = \frac{1}{N}\sum_{t=0}^{N-1} q^{-bt-(t+a)t} = C_N\, q^{(a+b)^2/4},
+\qquad C_N = \frac{1}{N}\sum_{t=0}^{N-1} q^{-t^2} \ne 0.
+\end{equation}
+Nonvanishing of $C_N$ in \emph{every} admissible characteristic (including $\operatorname{char}(k)=2$) follows from writing $G_\pm = \sum_{t} q^{\pm t^2}$: the invertible change of variables $(j,l)\mapsto(l-j,l+j)\pmod N$ gives $G_-G_+ = \sum_{u,v} q^{uv} = N\ne 0$ in $k$. Throughout, we work with normalized amplitudes $h_\ell = \eta_\ell/C_N$ and the normalized Fourier target $f_N(a,b) := q^{(a+b)^2/4}$.
+
+\section{Signed-triangle support, order $3$, order $9$, and $\Theta(N)$ growth}
+\label{sec:support-linear}
+
+\begin{lemma}[Four-orientation support gate]
+\label{lem:four-orient}
+Every representation of $F_N$ in the grammar of Definition~\ref{def:bank} contains at least one bank of each of the four orientations $(\eps,\delta)\in\{+1,-1\}^2$.
+\end{lemma}
+
+\begin{proof}
+By~\eqref{eq:bank-expansion}, every bank of orientation $(\eps,\delta)$ is supported inside the signed triangle
+\[
+A_{\eps,\delta} = \bigl\{(a,b)\in(\Z/N\Z)^2 : \res{\eps a} + \res{\delta b} \le N-1\bigr\}.
+\]
+For interior coordinates $1\le a,b\le N-1$, membership in $A_{++}, A_{+-}, A_{-+}, A_{--}$ reads $a+b\le N-1$, $a<b$, $b<a$, and $a+b\ge N+1$, respectively. Consequently, for every $1\le t\le (N-1)/2$, the diagonal point $(\eps t, \delta t)$ lies \emph{exclusively} in $A_{\eps,\delta}$ and outside the other three triangles. Since $f_N(\eps t, \delta t)\ne 0$, all four orientations are mandatory. (Conversely, the four triangles cover $(\Z/N\Z)^2$ when $N$ is odd: unequal interior coordinates lie in $A_{+-}\cup A_{-+}$, equal interior coordinates $a=b$ satisfy either $2a\le N-1$ or $2a\ge N+1$ by oddness, and all axis points are covered directly.)
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:small}(a): $\M_k(3;q)=4$]
+Lower bound $4$ is Lemma~\ref{lem:four-orient}. For sufficiency over any field $k$ with $\operatorname{char}(k)\nmid 3$ containing $q$, set $\beta=1$ and $\alpha_{++}=1$, $\alpha_{+-}=q$, $\alpha_{-+}=q$, $\alpha_{--}=1$, so every guard is $\Delta=-1\ne 0$. On row $b=0$, set $c_u = \frac{1}{3}\sum_{a=0}^2 f_3(a,0)q^{-ua}$ ($u\in\{0,1,-1\}$) and put $h_{++,0}=c_0$, $h_{+-,0}=c_1$, $h_{-+,0}=c_{-1}$, $h_{--,0}=0$; character orthogonality matches $b=0$. For the four exclusive points $(\eps,\delta)$ ($\ell=1$), set
+\[
+h_{\eps,\delta,1} = \frac{f_3(\eps,\delta)}{\alpha_{\eps,\delta}(1+q^{\eps\delta})}.
+\]
+Finally, for $b=d\in\{+1,-1\}$, the $\ell=2$ sector of $(+,-d)$ touches only $(0,d)$; setting $h_{+,-d,2}=f_3(0,d)-h_{+,d,1}-h_{-,d,1}$ and $h_{-,-d,2}=0$ matches the remaining two axis entries without altering any previous coordinate. Equation~\eqref{eq:raw-weights} produces the legal raw weights.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:linear}: $\max\{4,2\lceil(N-1)/4\rceil\}\le \M_k(N;q)\le 4N$]
+For the lower bound, restrict~\eqref{eq:bank-expansion} to row $b=1$ and $1\le a\le N-1$. Every $\delta=-1$ bank has $\ell=N-1$, hence $r=0$, so it vanishes identically on $1\le a\le N-1$. Each $(++)$ bank contributes
+\[
+\eta_1 \alpha^a \frac{1-q^{a+1}}{1-q}
+\]
+(which vanishes automatically at $a=N-1$ where $A_{++}$ stops), a linear combination of the two geometric sequences $\alpha^a$ and $(q\alpha)^a$. Each $(-+)$ bank with $\alpha\ne 0$ contributes
+\[
+\eta_1 \alpha^{N-a}\frac{1-q^{a-1}}{1-q^{-1}}
+\]
+(vanishing at $a=1$), a linear combination of $(\alpha^{-1})^a$ and $(q\alpha^{-1})^a$; a bank with $\alpha=0$ contributes zero throughout $1\le a\le N-1$. Thus if $r_+$ banks have $\delta=+1$, the sequence $a\mapsto\phi_N(a,1)$ ($1\le a\le N-1$) is a sum of at most $2r_+$ geometric sequences, so its $m_H\times m_H$ Hankel matrix $H_{ij} = \phi_N(i+j+1,1)$ ($0\le i,j<m_H:=(N-1)/2$) has rank at most $2r_+$ (cf.~\cite[Section~2]{PT10}, \cite[Theorem~2.1]{PP13}). On the other hand, expanding $(i+j+2)^2/4$ factors $H$ as
+\[
+H_{ij} = C_N q\cdot q^{i^2/4+i}\cdot q^{j^2/4+j}\cdot (q^{i/2})^j,
+\]
+the product of nonzero diagonal matrices and a Vandermonde matrix on the $m_H$ distinct nodes $q^{i/2}$. Hence $\rank(H)=(N-1)/2$, forcing $r_+\ge\lceil(N-1)/4\rceil$. Simultaneous reflection $(a,b)\mapsto(-a,-b)$ applies the identical argument at $b=-1$, giving $r_-\ge\lceil(N-1)/4\rceil$. Combining $r_++r_-\ge 2\lceil(N-1)/4\rceil$ with Lemma~\ref{lem:four-orient} yields the lower bound in~\eqref{eq:theta-N}.
+
+For the upper bound $4N$, assign each index $(a,b)\in(\Z/N\Z)^2$ to one containing signed triangle $A_{\eps,\delta}$ (by Lemma~\ref{lem:four-orient}). In local coordinates $(\eps r,\delta\ell)$ of each orientation, divide the assigned coefficient by $\gb{r+\ell}{\ell}{\zeta}\ne 0$ (setting unassigned entries to $0$) to obtain $t_{r,\ell}$. Taking the $N$ nodes $\alpha_j=q^j$ and $\beta=1$ ($\Delta=-1\ne 0$) in each orientation with
+\[
+\eta_{j,\ell} = \frac{1}{N}\sum_{r=0}^{N-1} t_{r,\ell} q^{-jr}
+\]
+matches every assigned entry by root-of-unity orthogonality, giving $4N$ legal banks in total.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:small}(d): $\M_k(9;q)\ge 6$ in all admissible characteristics]
+Suppose a representation of $F_9$ has $r_+\le 2$ positive-delta banks. By Lemma~\ref{lem:four-orient}, $r_+=2$ with one $(++)$ bank (node $x\ne 0$) and one $(-+)$ bank (node $y\ne 0$, write $z=y^{-1}$). By the proof of Theorem~\ref{thm:linear}, row $b=1$ ($1\le a\le 8$) is a linear combination of the four geometric bases $x,qx,z,qz$. Set $A=x+z$, $B=xz$, and $P(v)=\prod_{u\in\{x,qx,z,qz\}}(v-u)=\sum_{j=0}^4 p_j v^j$, so
+\[
+p_3 = -(1+q)A,\qquad p_2 = qA^2 + (1+q^2)B,\qquad p_1 = qB p_3,\qquad p_0 = q^2 B^2.
+\]
+The four valid recurrences $\sum_{j=0}^4 p_j f_9(a+j,1)=0$ ($a=1,2,3,4$) determine $\sum_{j=0}^4 p_j q^{j^2/4}v^j$ up to scale as the monic polynomial with the four distinct roots $q^{(a+1)/2}$ ($a=1,2,3,4$). Reducing modulo $\Phi_9(q)=q^6+q^3+1$ yields
+\[
+p_3 = -q^5+q^3-q^2-q+1,\quad p_2 = -q^4+2q^2-1,\quad p_1 = q^4-q^2+q+1 = qp_3,\quad p_0 = q^2.
+\]
+Since $p_3(q^2+1)\equiv 1\pmod{\Phi_9(q)}$, $p_1=qBp_3$ forces $B=1$. Eliminating $A=-p_3/(1+q)$ from $p_2=qA^2+(1+q^2)B$ forces
+\[
+E := (1+q)^2(p_2 - 1 - q^2) - qp_3^2 \equiv q^5 - q^4 + 2q^2 - 2q - 3 = 0.
+\]
+Yet direct polynomial multiplication gives $E(2q^5-q^4+3q^2-3q+2)\equiv 3\pmod{\Phi_9(q)}$, contradicting $\operatorname{char}(k)\nmid 9$. Thus $r_+\ge 3$, and by reflection $r_-\ge 3$, giving $\M_k(9;q)\ge 6$. For odd $N\ge 11$, Theorem~\ref{thm:linear} already gives $\M_k(N;q)\ge 2\lceil(N-1)/4\rceil\ge 6$, which with Theorem~\ref{thm:small}(a)--(c) completes the characteristic-zero four-bank classification.
+\end{proof}
+
+\section{Exact order-five synthesis: $\M_k(5;q)=5$}
+\label{sec:n5}
+
+Work over $K=\Q(q)$ with $q$ primitive of order $5$, $\Phi_5(X)=1+X+X^2+X^3+X^4$, and $f_5(a,b)=q^{4(a+b)^2}$. Set $c=q+q^4$ (so $c(c+1)=1$), $d=1+q^4$, and $H=q/(1+q)=1+q+q^3$.
+
+\subsection{Characteristic-zero lower bound $\M_k(5;q)\ge 5$}
+
+Suppose four banks represent $F_5$ over a characteristic-zero extension of $K$. By Lemma~\ref{lem:four-orient}, there is one bank per orientation with nonzero nodes $x=\alpha_{++}$, $y=\alpha_{-+}$, $u=\alpha_{--}$, $v=\alpha_{+-}$. Matching the two exclusive points of each orientation fixes its first two sector amplitudes: for node $\alpha$,
+\[
+h_1 = \frac{1+q+q^3}{\alpha},\qquad h_2 = \frac{q^2}{\alpha^2}.
+\]
+The remaining nonaxis equations at $b=1$ ($a=2,3$) reduce to
+\begin{equation}
+\label{eq:n5-rows}
+x = cy^2 - q^2,\qquad y = cx^2 - q^2,
+\end{equation}
+and simultaneous reflection gives the identical system for $(u,v)$. Subtracting yields $(x-y)(1+c(x+y))=0$, so each pair is either \emph{diagonal} ($x=y=t$ with $B(t):=ct^2-t-q^2=0$) or \emph{nondiagonal} with fixed sum and product
+\begin{equation}
+\label{eq:n5-sp}
+s = x+y = -\frac{1}{c} = q^3+q^2,\qquad p = xy = \frac{1}{c^2}-\frac{q^2}{c} = 1-q-2q^2-2q^3,
+\end{equation}
+where $s,p$ and $s^2-4p=-3+4q+7q^2+7q^3$ are all nonzero.
+
+At $b=2$, the outer entries $a=1,4$ determine $h_{+-,3}=-(1+d/x)/v$ and $h_{--,3}=-(1+d/y)/u$, and reflection determines $h_{++,3}, h_{-+,3}$. Since $\ell=0$ affects only $b=0$ and $\ell=4$ affects only $b=\pm 1$, the axis entries $(0,2)$ and $(0,3)$ impose
+\begin{align}
+q^2(x^{-2}+y^{-2}) - u^{-1} - v^{-1} - d\bigl((xv)^{-1}+(yu)^{-1}\bigr) &= q, \label{eq:n5-ax1}\\
+q^2(u^{-2}+v^{-2}) - x^{-1} - y^{-1} - d\bigl((xv)^{-1}+(yu)^{-1}\bigr) &= q. \label{eq:n5-ax2}
+\end{align}
+Setting $A(x,y):=q^2(x^{-2}+y^{-2})+x^{-1}+y^{-1}$, substituting~\eqref{eq:n5-rows} gives the exact identity
+\[
+A(x,y) = 2c - \frac{(x+y)(x-y)^2}{x^2 y^2}.
+\]
+Subtracting~\eqref{eq:n5-ax2} from~\eqref{eq:n5-ax1} forces $A(x,y)=A(u,v)$. Since $A=2c$ for a diagonal pair and $A\ne 2c$ for a nondiagonal pair, mixed types are impossible.
+
+\begin{itemize}[leftmargin=1.5em]
+\item \emph{Two diagonal pairs ($x=y=t$, $u=v=w$):} Put $a=2c-q$. Using $B(t)=0$, equation~\eqref{eq:n5-ax1} is equivalent to $D(t,w):=atw - 2(t+w) - 2d = 0$ (indeed, the residual of~\eqref{eq:n5-ax1} times $tw$ equals $D(t,w)-2(w/t)B(t)$). If $t\ne w$, they are the two distinct roots of $B$, so $t+w=1/c$ and $tw=-q^2/c$, yielding
+\[
+cD(t,w) = -2 - 2q + 2q^2 - q^3 \ne 0.
+\]
+If $t=w$, set $l_1=2q^3+2q^2-q+2$, $l_0=q^3+2q^2+2q$, and $L(t):=cD(t,t)-aB(t)=l_1 t + l_0$. The exact polynomial B\'ezout identity
+\[
+l_1^2 B(t) - (cl_1 t - cl_0 - l_1)L(t) = 1 + 4q - 11q^2 + 6q^3 \ne 0
+\]
+rules out any common root without dividing by $l_1$.
+\item \emph{Two nondiagonal pairs:} Both pairs share the same $(s,p)$ in~\eqref{eq:n5-sp}, so $(u,v)$ equals $(x,y)$ or $(y,x)$. Multiplying the residual of~\eqref{eq:n5-ax1} by $p^2$ produces respectively
+\begin{align*}
+q^2(s^2-2p) - sp - 2dp - qp^2 &= -5 - 5q + 5q^3 \ne 0,\\
+q^2(s^2-2p) - sp - d(s^2-2p) - qp^2 &= -9 - 19q - 17q^2 - 5q^3 \ne 0.
+\end{align*}
+\end{itemize}
+Because $\Phi_5(X)$ is irreducible over $\Q$ and every displayed residue is a nonzero rational polynomial of degree $<4$, none can vanish in any characteristic-zero extension containing $q$. Thus $\M_k(5;q)\ge 5$.
+
+\subsection{Explicit five-bank realization over $K=\Q(q)$}
+
+Take $\beta=1$ throughout and choose the five ordered banks
+\begin{equation}
+\label{eq:n5-banks}
+(++,1),\quad (++,z),\quad (-+,q),\quad (+-,t),\quad (--,t),
+\qquad z = -2-3q-3q^2-q^3,\quad t = 1+q.
+\end{equation}
+Denoting these five nodes as $(x,z,y,v,u)$ and putting $M(y)=cy^2-q^2$, $N(y)=(y+q^2)/c$, direct reduction modulo $\Phi_5$ confirms $M(q)=q-q^2+q^3$, $N(q)=1+2q+2q^2+q^3$, $N(q)=(1+z)M(q)-z$, and $ct^2-t-q^2=0$. Hence the first-sector amplitudes
+\[
+h_{x,1} = \frac{H(z-M(y))}{x(z-x)},\quad
+h_{z,1} = \frac{H(M(y)-x)}{z(z-x)},\quad
+h_{y,1} = \frac{H}{y},\quad
+h_{v,1} = \frac{H}{v},\quad
+h_{u,1} = \frac{H}{u}
+\]
+match all nonaxis entries of rows $b=1$ and $b=4$. The $\ell=4$ sectors touch only $a=0$ on $b=1,4$; setting $h_{+-,4}=f_5(0,1)-h_{x,1}-h_{z,1}-h_{y,1}$, $h_{--,4}=0$, $h_{x,4}=f_5(0,4)-h_{v,1}-h_{u,1}$, and $h_{z,4}=h_{y,4}=0$ matches both axes.
+
+For the remaining three rows $b\in\{0,2,3\}$, set $G=1+q+q^2$, $P=1+q^4+q^3$, and form the $5\times 5$ coefficient matrices
+\[
+M_0 = \begin{pmatrix}
+1&1&1&1&1\\
+x&z&y^4&v&u^4\\
+x^2&z^2&y^3&v^2&u^3\\
+x^3&z^3&y^2&v^3&u^2\\
+x^4&z^4&y&v^4&u
+\end{pmatrix},\quad
+M_2 = \begin{pmatrix}
+1&1&1&1&1\\
+Gx&Gz&0&-qv&0\\
+q^2x^2&q^2z^2&0&0&0\\
+0&0&q^3y^2&0&0\\
+0&0&Py&0&-q^4u
+\end{pmatrix},\quad
+M_3 = \begin{pmatrix}
+1&1&1&1&1\\
+-q^4x&-q^4z&0&Pv&0\\
+0&0&0&q^3v^2&0\\
+0&0&0&0&q^2u^2\\
+0&0&-qy&0&Gu
+\end{pmatrix}.
+\]
+Evaluating at~\eqref{eq:n5-banks} yields the nonzero determinants
+\begin{align*}
+\det M_0 &= -1093 - 5351q - 6894q^2 - 3592q^3,\\
+\det M_2 &= 31 + 21q - 17q^2 - 30q^3,\\
+\det M_3 &= 6 + 19q + 21q^2 + 9q^3,
+\end{align*}
+and the five nonzero guards $\Delta=-\alpha^5$ equal to $-1$, $269+760q+795q^2+325q^3$, $-1$, $3-5q^2-5q^3$, $3-5q^2-5q^3$. Solving $M_b^{-1}(f_5(a,b))_{a=0}^4$ assigns the distinct sectors $\ell=[\delta b]_5$ cleanly, and~\eqref{eq:raw-weights} supplies all $25$ legal raw phase weights over $K$. This proves Theorem~\ref{thm:small}(b).
+
+\section{Exact order-seven synthesis: $\M_{\C}(7;q)=8$}
+\label{sec:n7}
+
+Work over $K=\Q(q)$ with $q$ primitive of order $7$, $\Phi_7(X)=\sum_{j=0}^6 X^j$, $f_7(a,b)=q^{2(a+b)^2}$, and $H=q/(1+q)$.
+
+\subsection{Characteristic-zero lower bound $\M_k(7;q)\ge 8$}
+\label{sec:n7lower}
+
+We prove that every $\delta$-sign requires at least $4$ banks, regardless of how many banks appear on the opposite side. Suppose first that exactly $3$ banks have $\delta=+1$, with two $(++)$ nodes $x,z$ and one $(-+)$ node $y$. At row $b=1$, every $\delta=-1$ bank has $\ell=6$ and vanishes on $1\le a\le 6$. The exclusive entry $a=6$ forces $h_y y=H$ (so $y\ne 0$), and $a=1$ gives $h_x x + h_z z = H$. Put $A=h_x x/H$ and $B=h_z z/H$ ($A+B=1$, with no division by $x$ or $z$). The nonaxis entries $a=2,3,4,5$ read $Ax^j + Bz^j = m_j(y)$ ($1\le j\le 4$, with $m_0=1$), where
+\begin{align*}
+m_1 &= -1-q-q^4-q^5 - (q^2+q^5)y^4,\\
+m_2 &= 1+q+q^3+q^4 - (1+q^3+q^4)y^3,\\
+m_3 &= -q^2 - (1+q^2+q^3+q^4+q^5)y^2,\\
+m_4 &= -q^2-q^3 - (q^2+q^3+q^4+q^5)y.
+\end{align*}
+Define $D=m_2-m_1^2$, $S_n=m_3-m_1m_2$, $P_n=m_1m_3-m_2^2$, and $R(y)=Dm_4-S_nm_3+P_nm_2$. Setting $s=x+z$ and $p=xz$, the two-atom recurrence forces the polynomial identities $S_n=sD$, $P_n=pD$, and $R(y)=0$, unconditionally (including when $D=0$, $x=z$, or $x$ or $z$ vanishes).
+
+Next consider row $b=2$, where every $\delta=-1$ bank has $\ell=5$ and vanishes on $a\in\{2,3,4,5\}$. The entry $a=5$ fixes the $(-+)$ second-sector amplitude $k_y = 1/(y^2\gb{4}{2}{q^{-1}})$, and the remaining three equations read $k_x x^j + k_z z^j = n_j(y)$ ($j=2,3,4$), where
+\begin{align*}
+n_2 &= 2+q+q^3+2q^4,\\
+n_3 &= -1-q^3 + (-3-2q+q^2-2q^3-3q^4)y^2,\\
+n_4 &= q^5 - (1+q+q^3+q^4)y.
+\end{align*}
+Hence $n_4 - sn_3 + pn_2 = 0$; multiplying by $D$ yields a second degree-$9$ condition
+\[
+E(y) := Dn_4 - S_n n_3 + P_n n_2 = 0.
+\]
+
+\begin{proposition}[Good-reduction B\'ezout incompatibility certificate]
+\label{prop:n7-bezout}
+$R(Y)$ and $E(Y)$ have no common root in any characteristic-zero extension field of $K$.
+\end{proposition}
+
+\begin{proof}
+Consider the localization $\mathcal{O}=\Z[q]_{(29,q-7)}$, where $7\in\F_{29}^\times$ has exact multiplicative order $7$. Every denominator in the moment formulas ($1+q$, $\gb{4}{2}{q}$, $\gb{5}{2}{q}$, $\gb{6}{2}{q}$, $\gb{4}{2}{q^{-1}}$) and the leading coefficient of $R$ map to units in $\F_{29}$. Reducing modulo $(29,q-7)$ in ascending powers of $Y$ gives
+\begin{align*}
+\overline{R} &= (23,26,9,23,13,0,11,16,10,8),\\
+\overline{E} &= (28,5,17,4,2,15,24,10,28,3).
+\end{align*}
+Direct polynomial multiplication in $\F_{29}[Y]$ verifies that
+\begin{align*}
+U &= (21,24,2,5,25,23,15,2,18),\\
+V &= (18,28,0,22,8,2,16,25,10)
+\end{align*}
+satisfy the literal B\'ezout identity $U\overline{R} + V\overline{E} = 1$ in $\F_{29}[Y]$. Since the monic quotient $\mathcal{A}=\mathcal{O}[Y]/(R_{\mathrm{monic}})$ is finite free of rank $9$ over $\mathcal{O}$ and multiplication by $\overline{E}$ on $\mathcal{A}/(29,q-7)\mathcal{A}$ is invertible, its determinant is a unit in $\mathcal{O}$ and hence nonzero in $K$. Therefore $E$ is a unit in $K[Y]/(R)$, precluding any common root in any characteristic-zero extension.
+\end{proof}
+
+Transposition sends $(\eps,\delta)\mapsto(-\eps,\delta)$ while fixing $F_7$, eliminating the $(1,2)$ split on $\delta=+1$; conjugation by $Pe_i=e_{-i}$ sends $(\eps,\delta)\mapsto(-\eps,-\delta)$ while fixing $F_7$, eliminating $(2,1)$ and $(1,2)$ on $\delta=-1$. Any side with only $2$ banks (necessarily one of each $\eps$-sign by Lemma~\ref{lem:four-orient}) embeds into the excluded $3$-bank case by adjoining a legal zero bank ($\alpha=\beta=1, w_j=0, \Delta=-1$). Thus $r_+\ge 4$ and $r_-\ge 4$, proving $\M_k(7;q)\ge 8$.
+
+\subsection{Explicit eight-bank realization over a cubic splitting field}
+\label{sec:n7upper}
+
+Define $s_2, s_3\in K=\Q(q)$ and the monic cubic $g(t)\in K[t]$ by
+\begin{align}
+s_2 &= (-8 + 35q + 25q^2 + 28q^3 + q^4 - 17q^5)/29, \nonumber\\
+s_3 &= (-3 - 5q - 16q^2 - 4q^3 + 4q^4 + 19q^5)/29, \qquad g(t) = t^3 + s_2 t - s_3. \label{eq:n7-cubic}
+\end{align}
+Since $s_3\ne 0$ and
+\[
+\disc(g) = \frac{665859 + 635064q + 863499q^2 + 425987q^3 + 275146q^4 - 15036q^5}{24389} \ne 0
+\]
+by irreducibility of $\Phi_7$, $g$ has three distinct nonzero roots $x_1,x_2,x_3$ in its splitting field $L/K$ ($[L:K]\le 6$). Choose $\beta=1$ throughout and the eight legal banks
+\begin{equation}
+\label{eq:n7-banks}
+(++,x_1),\ (++,x_2),\ (++,x_3),\ (-+,1),\ (+-,1),\ (--,x_1),\ (--,x_2),\ (--,x_3),
+\end{equation}
+whose guards $-x_i^7$ and $-1$ are all nonzero.
+
+Setting $y=1$ in the order-$7$ moments of Section~\ref{sec:n7lower} gives $m_0=1$, $m_1=-1-q-q^2-q^4-2q^5$, $m_2=q$, $m_3=-1-2q^2-q^3-q^4-q^5$, $m_4=-2q^2-2q^3-q^4-q^5$, and $D=m_2-m_1^2=1+4q-q^2+3q^4\ne 0$. Direct arithmetic in $K$ verifies $s_2=(m_1m_3-m_4)/D$ and $s_3=m_3+s_2m_1$, so $m_3=-s_2m_1+s_3m_0$ and $m_4=-s_2m_2+s_3m_1$. Thus the unique Vandermonde weights $A_i\in L$ with $\sum_i A_i x_i^j = m_j$ ($j=0,1,2$) automatically satisfy $j=3,4$, so $h_{++,i,1}=HA_i/x_i$ and $h_{-+,1}=H$ match all nonaxis entries of row $b=1$. With $K_0=H(m_2+s_2)/s_3$, $K_1=H$, $K_2=Hm_1$, setting $h_{+-,6}=q^2-K_0-H$ and $h_{--,i,6}=0$ matches the axis; reflection supplies row $b=6$.
+
+For the remaining rows, let $p_r=(p_{r0},p_{r1},p_{r2})\in K^3$ be the coordinates of $t^r\bmod g(t)$ in $\{1,t,t^2\}$ ($p_r=-s_2p_{r-2}+s_3p_{r-3}$ for $r\ge 3$). Let $G_{\eps,\delta}(a,b)=\gb{r+\ell}{\ell}{q^{\eps\delta}}$ when $r+\ell\le 6$ and $0$ otherwise ($r=[\eps a]_7$, $\ell=[\delta b]_7$). For fixed $b$, define the $7\times 8$ moment matrix $M_b$ with row $a$ equal to
+\[
+\bigl(G_{++}p_{a0},\, G_{++}p_{a1},\, G_{++}p_{a2},\, G_{-+},\, G_{+-},\, G_{--}p_{[-a]_7,0},\, G_{--}p_{[-a]_7,1},\, G_{--}p_{[-a]_7,2}\bigr)
+\]
+for unknowns $z_b=(K_{++,0},K_{++,1},K_{++,2},h_{-+},h_{+-},K_{--,0},K_{--,1},K_{--,2})$. Retaining the zero-based column sets
+\[
+I_0 = (0,1,2,3,5,6,7),\qquad I_2 = (0,1,2,3,4,5,6),\qquad I_3 = (0,1,2,3,4,6,7)
+\]
+for $b=0,2,3$ respectively (setting the omitted coordinate to $0$) gives three $7\times 7$ minors with exact nonzero determinants in $K$:
+\begin{align*}
+d_0 &= -\bigl(370501134818472 + 889546502909192q + 1166936870814012q^2 \\
+    &\qquad + 994193630954024q^3 + 501377982443436q^4 + 58844381586428q^5\bigr)/500246412961,\\
+d_2 &= (726 - 4387q - 12368q^2 - 16345q^3 - 13989q^4 - 6744q^5)/841,\\
+d_3 &= 1 + 3q + 5q^2 + 5q^3 + 3q^4 + q^5.
+\end{align*}
+Solving these three $7\times 7$ systems over $K$ and applying the reflection involution $J(z_0,\ldots,z_7)=(z_5,z_6,z_7,z_4,z_3,z_0,z_1,z_2)$ for $z_4=Jz_3$, $z_5=Jz_2$, $z_6=Jz_1$ solves all seven rows. Converting any moment triple $k=(k_0,k_1,k_2)$ into root amplitudes via Lagrange interpolation
+\begin{equation}
+\label{eq:lagrange-amp}
+A_k(x_i) = \frac{k_2 + x_i k_1 + (x_i^2 + s_2)k_0}{g'(x_i)}
+\end{equation}
+(using $\sum_i x_i^r/g'(x_i) = \mathbf{1}_{r=2}$ for $r\in\{0,1,2\}$) and applying~\eqref{eq:raw-weights} produces all $56$ legal phase weights over $L$. Moreover, in the separable cubic algebra $E=K[t]/(g)$, the trace $\Tr_{E/K}(a_0+a_1t+a_2t^2)=3a_0-2s_2 a_2$ sums each root triple identically over $K$ without choosing numerical embeddings, enabling direct exact $7\times 7$ matrix verification of all $56$ branch resolvents and all $49$ entries of $F_7$. This completes Theorem~\ref{thm:small}(c).
+
+\section{First-order Fourier envelope cancellation and the $5N/3$ bound}
+\label{sec:five-thirds}
+
+Throughout this section, let $N\ge 23$ be odd, $d\ge 4$, $N\ge 6d-2$, $m=N-d$, and let $k$ be any field with $\operatorname{char}(k)\nmid N$ containing a primitive $N$-th root $q$. Put $e=2^{-1}\bmod N$, $h=4^{-1}\bmod N$, $\rho=q^e$ (primitive with $\rho^2=q$), and $C_j=q^{hj^2}$.
+
+\subsection{Whole-left recurrence sequences and enlarged envelope}
+
+For $1\le b\le (N-1)/2$, let $G_{\eps,\delta}(a,b)=\gb{r+\ell}{\ell}{q^{\eps\delta}}$ on $r+\ell<N$ and $0$ otherwise ($r=[\eps a]_N$, $\ell=[\delta b]_N$). Set
+\[
+T_b = \frac{1}{G_{-+}(N-b,b)},\qquad
+v_b(j) = \frac{f_N(j,b) - T_b G_{-+}(j,b)}{G_{++}(j,b)}\qquad (1\le j\le N-b-1).
+\]
+Let $A_{N,m}$ be the recurrence matrix with row $(v_b(a+j))_{j=0}^m$ for every $a,b\ge 1$ with $a+b\le d-1$. Any monic degree-$m$ polynomial $g(t)=\sum_{j=0}^m c_j t^j\in\ker A_{N,m}$ annihilates all length-$(m+1)$ windows of the whole-left sequences $v_b$. Define the denominator and enlarged envelope
+\begin{align}
+D(z) &= \prod_{j=2}^{d-1}(1 - q^j z), \qquad
+E = \Bigl\{\Bigl(\frac{C_j P(\rho^j) + R(q^j)}{D(q^j)}\Bigr)_{j=0}^m : \deg P\le 3d-7,\ \deg R\le d-2\Bigr\}, \label{eq:envelope}\\
+U &= E^\perp,\qquad U_0 = \{g\in U : c_0=0\}. \nonumber
+\end{align}
+Every $D(q^j)$ ($0\le j\le m$) is nonzero because $2\le j+r\le N-1$ for $2\le r\le d-1$. Since $E$ has at most $(3d-6)+(d-1)=4d-7$ generators inside $k^{m+1}$, we have $\dim U \ge (m+1)-(4d-7) = N-5d+8 \ge d+6$. Taking $P=0, R=D$ places the all-ones vector in $E$, so every $g\in U$ satisfies $g(1)=0$.
+
+\begin{lemma}[Whole-left inclusion $U\subseteq\ker A_{N,m}$]
+\label{lem:envelope-inclusion}
+Every row $(v_b(a+j))_{j=0}^m$ of $A_{N,m}$ ($a,b\ge 1$, $a+b\le d-1$) belongs to $E$; hence $U\subseteq\ker A_{N,m}$.
+\end{lemma}
+
+\begin{proof}
+Put $s=a+b\le d-1$, $Q_b=\prod_{i=1}^b(1-q^i)$, $F_{a,b}(z)=D(z)/\prod_{i=1}^b(1-q^{a+i}z)$, $R_{a,b}(z)=\prod_{i=1}^b(1-q^{a-i}z)$, and $B_b=T_b(-1)^b q^{b(b+1)/2}$. Since $2\le a+i\le s\le d-1$, $F_{a,b}(z)$ is a polynomial of degree $(d-2)-b$. Direct expansion of the Gaussian binomials yields the exact identity (valid in every admissible characteristic, including where $G_{-+}=0$ since $R_{a,b}(q^j)$ acquires a zero factor there)
+\[
+D(q^j)v_b(a+j) = Q_b q^{hs^2} C_j \rho^{sj} F_{a,b}(q^j) - B_b R_{a,b}(q^j) F_{a,b}(q^j).
+\]
+Its chirp polynomial in $\rho^j$ has degree $s+2(d-2-b)=2d-4+a-b\le 3d-7$ (as $a\le d-2$, $b\ge 1$), and its ordinary polynomial $R_{a,b}F_{a,b}$ has degree $d-2$.
+\end{proof}
+
+\subsection{First-order variable-coefficient cancellation}
+
+Let $\mathcal{S}$ denote the forward shift on scalar sequences, $(\mathcal{S}y)_j = y_{j+1}$. Since $C_{j+1}=q^h\rho^j C_j$, any constant factor $\mathcal{S}-\lambda$ sends $C_j P(\rho^j)$ to $C_j\bigl(q^h\rho^j P(\rho\cdot\rho^j)-\lambda P(\rho^j)\bigr)$, raising the degree of every nonzero chirp polynomial by exactly $1$ (hence injective in every characteristic).
+
+The key innovation improving $N\ge 8d-10$ ($7N/4$) to $N\ge 6d-2$ ($5N/3$) exploits the consecutive-factor identity of $D(z)$:
+\begin{equation}
+\label{eq:D-ratio}
+(1 - q^2 z)D(qz) = (1 - q^d z)D(z).
+\end{equation}
+For any $x\ne 0$, define the \emph{first-order variable-coefficient operator}
+\begin{equation}
+\label{eq:Lx-def}
+(L_x y)_j = (1 - q^{j+2})y_{j+1} - x(1 - q^{j+d})y_j.
+\end{equation}
+
+\begin{lemma}[First-order envelope cancellation]
+\label{lem:first-order}
+Let $M_+ = \prod_{r=0}^{d-1}(\mathcal{S}-q^r)$ (order $d$). For every $x\ne 0$:
+\begin{enumerate}[label=(\roman*),leftmargin=2em]
+\item $L_x\bigl(x^j D(q^j)\bigr) = 0$, and $L_1\bigl(jD(q^j)\bigr) = (1-q^{j+d})D(q^j)$ (an ordinary polynomial in $q^j$ of degree $d-1$, killed by $M_+$).
+\item For $\deg R\le d-2$, $L_x(R(q^j)) = R_x(q^j)$ with $\deg R_x\le d-1$, which is killed by $M_+$.
+\item For any chirp polynomial $P$, $L_x(C_j P(\rho^j)) = C_j \Phi_x(P)(\rho^j)$, where
+\[
+\Phi_x(P)(t) = q^h t(1-q^2 t^2)P(\rho t) - x(1-q^d t^2)P(t).
+\]
+If $P\ne 0$ has degree $p$ and leading coefficient $a_p\ne 0$, then $\Phi_x(P)$ has degree \emph{exactly} $p+3$ and leading coefficient $-q^{h+2}\rho^p a_p\ne 0$ in every characteristic (the second summand has degree $\le p+2$).
+\item Consequently, if $C_j P(\rho^j)+R(q^j)$ agrees with $x^j D(q^j)$ (or with $jD(q^j)$ at $x=1$) for $j=1,\ldots,m$, and $N\ge 6d-2$, then $P=0$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Parts~(i)--(iii) follow immediately from~\eqref{eq:D-ratio}--\eqref{eq:Lx-def} and $C_{j+1}=q^h\rho^j C_j$ (note that in~(i), $(1-q^{j+2})(j+1)D(q^{j+1}) - (1-q^{j+d})jD(q^j) = ((j+1)-j)(1-q^{j+d})D(q^j)$ holds in every characteristic). For~(iv), applying $M_+ L_x$ to the vanishing difference on $j=1,\ldots,m$ eliminates both the target and the ordinary part $R(q^j)$, leaving a chirp polynomial of degree at most $(3d-7)+3+d = 4d-4$ vanishing at the $m-d-1 = N-2d-1$ distinct points $\rho^j$ ($1\le j\le m-d-1$). Because $N\ge 6d-2$, we have
+\[
+N - 2d - 1 \ge 4d - 3 > 4d - 4
+\]
+and $4d-4 < N$. Polynomial interpolation forces the transformed polynomial to vanish identically; since both $\Phi_x$ and each factor of $M_+$ are injective on chirp polynomials, $P=0$. (Importantly, $L_x$ is never inverted or used for recurrence propagation; it is applied purely on the finite forward interval $1\le j\le m-1$.)
+\end{proof}
+
+\subsection{Fixed divisors, positive-characteristic separability, and axis rank}
+
+\begin{proposition}[Fixed divisors and generic legal guards in all characteristics]
+\label{prop:guards}
+Assume $N\ge 23$ is odd, $d\ge 4$, $N\ge 6d-2$, and $\operatorname{char}(k)\nmid N$. Over an algebraic closure $\overline{k}$:
+\begin{enumerate}[label=(\alph*),leftmargin=2em]
+\item The coordinate functionals $c_0,c_1,c_m$ are jointly independent on $U$ (and $c_1,c_m$ remain independent on $U_0$).
+\item $\gcd(U_0) = t(t-1)$ and $\gcd(U) = t-1$, including multiplicities.
+\item On the nonempty monic affine slice $U_1=\{g\in U : c_m=1\}$, the constant term $c_0$, the discriminant $\disc(g)$, and at least one $N\times N$ minor of the $N\times(2m+1)$ axis matrix $X_N(g)$ (whose row $a$ is $(p_a, 1, p_{[-a]_N})$ where $p_a$ is the coefficient vector of $t^a\bmod g$) are nonzero polynomials.
+\item Their product is a nonzero polynomial on $U_1$ of total degree at most $H := d(d+1) + 2m - 1$. If $k=\F_Q$ contains $q$, then $Q\ge N+1$ and $H < Q^2/2$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) If an envelope vector is supported on $\{0,1,m\}$, then $C_j P(\rho^j)+R(q^j)=0$ for $j=2,\ldots,m-1$. Applying $M=\prod_{r=0}^{d-2}(\mathcal{S}-q^r)$ (order $d-1$) leaves a chirp polynomial of degree $\le 4d-8$ vanishing at $N-2d-1\ge 4d-3 > 4d-8$ distinct $\rho$-points, forcing $P=0$ and then $R=0$ by interpolation. Thus $\delta_0,\delta_1,\delta_m$ are independent modulo $E$, i.e., $c_0,c_1,c_m$ are independent on $U$.
+
+(b) If $x\ne 0$ is a common root of $U_0$, duality yields an envelope matching $x^j D(q^j)$ on $1\le j\le m$. Lemma~\ref{lem:first-order}(iv) forces $P=0$. Now (and only now) apply the constant-coefficient operator $M\cdot\prod_{r=0}^{d-2}(\mathcal{S}-xq^r)$ of order $2d-2$, whose leading and constant coefficients are units. Since $m=N-d\ge 5d-2\ge 2d-2$, the zeros of $R(q^j)-x^j D(q^j)$ propagate forward and backward to $j=0,N$, giving $x^N=1$ (as $D(1)\ne 0$). Writing $x=q^s$, we get $R(z)\equiv z^s D(z)\pmod{z^N-1}$; since $D$ has nonzero endpoint coefficients at degrees $0$ and $d-2$ and $2(d-2)<N$, this forces $s=0$ and $x=1$. Similarly, if the derivative functional $(j)$ lay in $E+\operatorname{span}(\delta_0)$, Lemma~\ref{lem:first-order}(iv) at $x=1$ gives $P=0$, and propagating $R(q^j)-jD(q^j)$ via $M^2$ (valid in every characteristic, since $(\mathcal{S}-q^r)^2$ kills $jq^{rj}$) gives $0=ND(1)$ at $j=N$, contradicting $\operatorname{char}(k)\nmid N$. Together with~(a) (making $0$ simple in $U_0$ and excluded from $U$), this proves $\gcd(U_0)=t(t-1)$ and $\gcd(U)=t-1$.
+
+(c) For any polynomial space $V$ with $\gcd(V)=1$ and positive max degree, its universal polynomial $H(Z,t)=\sum_i Z_i h_i(t)$ is irreducible in $k(Z)[t]$ (any factorization in $k[t,Z]$ has $Z$-degree $1$, so one factor lies in $k[t]$ and divides every $h_i$). Apply this to $V_1 = \{g/(t-1) : g\in U\}$. Writing $g=(t-1)h$ gives $h_0=-c_0$ and $h_1=-c_0-c_1$; by~(a), $\delta_0+\delta_1\notin E$, so $h_1$ is a nonzero functional on $U$. Hence the universal $H\in k(Z)[t]$ has nonzero derivative $H'\ne 0$ even in characteristic $2$, so irreducibility forces $\gcd(H,H')=1$ (generic separability). Combined with $h(1)=g'(1)\not\equiv 0$ from~(b), $\disc(g)\not\equiv 0$ on $U_1$.
+
+For the axis minor, put $V_0=\{g/[t(t-1)] : g\in U_0\}$ (max degree $r=m-2$, $\gcd(V_0)=1$, independent endpoints $-c_1,c_m$). If the universal $f\in V_0$ shared a factor with $\rev_r f = t^r f(1/t)$, irreducibility would force $\rev_r f = \lambda f$ with $\lambda^2=1$ ($\lambda=\pm 1$, or $\lambda=1$ in characteristic $2$), contradicting independent endpoints. Choosing a reciprocal-coprime $f\in V_0$ over $\overline{k}$ with nonzero endpoints and setting monic $g_0=t(t-1)f$ (purely an auxiliary test point, not a physical bank), any row dependence $A(t)=\sum_{a=0}^{N-1} A_a t^a$ of $X_N(g_0)$ satisfies $g_0\mid A$, $A(1)=0$, and $g_0\mid (t^N A(1/t)+A(0)(1-t^N))$. Since $t\mid g_0$, $A(0)=0$, so $\rev_r(f)\mid A$. Coprimality forces $t(t-1)f\rev_r(f)\mid A$, whose degree $2m-2 = 2N-2d-2 > N-1$ (as $N>2d+1$ for $N\ge 6d-2, d\ge 4$), forcing $A=0$ and $\rank X_N(g_0)=N$. Thus some $N\times N$ minor of $X_N(g)$ is nonzero on $U_1$.
+
+(d) Reducing $t^j\bmod g$ produces polynomials of degree $\le\max(0,j-m+1)$ in the nonleading coefficients of $g$. In $X_N(g)$, the nonconstant rows are $a=1,\ldots,d$ (max degrees $d,\ldots,1$) and $a=m,\ldots,N-1$ (max degrees $1,\ldots,d$), disjoint because $N>2d$; hence every $N\times N$ minor has total degree $\le d(d+1)$. Adding $\deg(\disc(g))\le 2m-2$ and $\deg(c_0)=1$ gives $H=d(d+1)+2m-1$. For $k=\F_Q$ containing $q$, $N\mid (Q-1)$ so $Q\ge N+1$; with $d\le (N+2)/6\le N/4$ and $N\ge 23$,
+\[
+H \le \frac{N^2}{16} + \frac{9N}{4} - 1 < \frac{(N+1)^2}{2} \le \frac{Q^2}{2}. \qedhere
+\]
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:five-thirds}]
+By Proposition~\ref{prop:guards}(c)--(d), the simultaneous guard polynomial is nonzero of degree $\le H$ on the affine space $U_1$. If $k$ is infinite, $U_1$ contains a $k$-point $g$ avoiding its zero locus. If $k=\F_Q$ is finite, the elementary finite-grid bound gives at most $H R^{s-1}$ zeros in $\F_R^s$ ($s=\dim U-1$); taking $R=Q^2>2H$ guarantees a good polynomial $g\in\F_{Q^2}[t]$ (with uniform random success probability $>1/2$). Let $x_1,\ldots,x_m$ be the $m$ distinct nonzero roots of $g$ in its splitting field $L$ (degree $\le m!$ over the coefficient field).
+
+Because $g\in U\subseteq\ker A_{N,m}$ (Lemma~\ref{lem:envelope-inclusion}), for each $1\le b\le (N-1)/2$ we solve the nonzero-node Vandermonde system $\sum_{i=1}^m U_i x_i^a = v_b(a)$ on the first $\min(m,N-b-1)$ values of $a\ge 1$ (padding if shorter) and propagate the remaining values via $g$; assign $h_{-+,b}=T_b$ and $h_{+-,N-b}=0$; and choose $(--)$ amplitudes $V_i$ by Vandermonde inversion matching $a=0$ ($f_N(0,b)-T_b-\sum_i U_i$) and $a=N-r$ ($1\le r\le b-1$, since $b\le (N-1)/2\le m$). Reflection handles negative $b$ on disjoint sectors, and full rank $\rank X_N(g)=N$ solves row $b=0$ cleanly. Equation~\eqref{eq:raw-weights} converts all amplitudes into legal raw weights with $\beta=1$, $\Delta=-\alpha^N\ne 0$. Dropping any ineffective same-sign banks gives at most $2m+2$ legal banks; choosing $d=\lfloor(N+2)/6\rfloor$ yields~\eqref{eq:five-thirds}.
+\end{proof}
+
+\section{Reverse GCD descent and deterministic cubic-time coefficient generation}
+\label{sec:cubic}
+
+We now prove Theorem~\ref{thm:cubic} via an amortized scalar-span coprime selection algorithm valid over any field without factoring, root extraction, or squarefreeness assumptions.
+
+\begin{lemma}[Amortized reverse-GCD scalar-span selection]
+\label{lem:reverse-gcd}
+Let $a\in k[t]$ be a nonzero polynomial of degree $v\ge 1$, let $b_1,\ldots,b_s\in k[t]$ span a $k$-linear subspace $W$ with $\deg b_j\le L$ ($L\ge v$) and $\gcd(a,b_1,\ldots,b_s)=1$, and let $\phi:W\to k$ be an optional nonzero linear functional. Given a represented list of $v+2$ distinct scalars in $k$, one can deterministically find $p\in W$ satisfying $\gcd(a,p)=1$ (and $\phi(p)\ne 0$) using
+\[
+O\bigl((s+v)L^2\bigr) \text{ field add/mul},\qquad O\bigl((s+v)L\bigr) \text{ inversions},\qquad O(sL + v^2 + L) \text{ field elements of storage}.
+\]
+\end{lemma}
+
+\begin{proof}
+Filter $0$ from the scalar list if present, leaving at least $v+1$ distinct nonzero scalars. Normalize $a$ to be monic and set $A_0=a$.
+
+\smallskip
+\noindent\emph{Step 1 (Forward GCD chain):} Scan $j=1,\ldots,s$, computing $G=\gcd(A_{\mathrm{cur}}, b_j)$. Whenever $\deg G < \deg A_{\mathrm{cur}}$, record the original basis element $p_i := b_j$ (storing only its index) and $A_i := G$ (monic). Since $\gcd(a,b_1,\ldots,b_s)=1$, the chain terminates at $A_\ell=1$ with strictly decreasing degrees $v=\deg A_0 > \deg A_1 > \cdots > \deg A_\ell = 0$ ($\ell\le v$), using at most $s$ Euclidean GCDs.
+
+\smallskip
+\noindent\emph{Step 2 (Reverse unwind):} Initialize $P := p_\ell$, so $\gcd(A_{\ell-1}, P) = A_\ell = 1$. For $i=\ell-1,\ldots,1$, maintain $\gcd(A_i, P)=1$. Write $A=A_{i-1}$, $D=A_i=\gcd(A,p_i)$, and $\Delta_i = \deg A - \deg D > 0$. Test $C_\lambda := p_i + \lambda P$ over the first $\Delta_i+1$ nonzero scalars $\lambda$ in the list until $\gcd(A,C_\lambda)=1$, then replace $P\leftarrow C_\lambda$.
+
+We claim at most $\Delta_i$ trials fail. Set $e_\lambda := \gcd(A, p_i+\lambda P)$ (monic). Every irreducible factor of $D$ divides $p_i$ and $A$ but not $P$ (since $\gcd(D,P)=1$), so $\gcd(D,e_\lambda)=1$ for every $\lambda\ne 0$. Moreover, for distinct nonzero $\lambda\ne\mu$, any common irreducible factor of $e_\lambda$ and $e_\mu$ divides $(p_i+\lambda P)-(p_i+\mu P)=(\lambda-\mu)P$, hence divides $P$, $p_i$, and $A$, hence divides $\gcd(D,P)=1$, impossible. Thus $D$ and the monic factors $e_\lambda$ are pairwise coprime divisors of $A$, so with full multiplicities
+\[
+D\prod_\lambda e_\lambda \mid A \implies \sum_\lambda \deg(e_\lambda) \le \deg A - \deg D = \Delta_i.
+\]
+Each failure has $\deg(e_\lambda)\ge 1$, so at most $\Delta_i$ values fail and at least one of the first $\Delta_i+1$ nonzero scalars succeeds. Because $\sum_{i=1}^{\ell-1}\Delta_i \le \sum_{i=1}^\ell \Delta_i = v$ and $\ell\le v$, the total number of unwind GCD trials is at most
+\begin{equation}
+\label{eq:trial-telescope}
+\sum_{i=1}^{\ell-1} (\Delta_i + 1) \le v + (\ell - 1) \le 2v - 1.
+\end{equation}
+On completion, $P\in W$ satisfies $\gcd(a,P)=1$.
+
+\smallskip
+\noindent\emph{Step 3 (Optional functional repair):} If $\phi$ is supplied and $\phi(P)=0$, scan for a basis element $u=b_j$ with $\phi(u)\ne 0$, set $D=\gcd(a,u)$, and test $C_\lambda = u + \lambda P$ (which satisfies $\phi(C_\lambda)=\phi(u)\ne 0$ for all $\lambda$). By the identical multiplicity bound, at most $v-\deg D\le v$ nonzero scalars fail, so at most $v+1$ trials succeed.
+
+Each Euclidean GCD of polynomials of degree $\le L$ costs $O(L^2)$ add/mul and $O(L)$ inversions, giving $O((s+v)L^2)$ add/mul, $O((s+v)L)$ inversions, and $O(sL+v^2+L)$ storage for the input basis, chain divisors $A_i$, and buffers.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:cubic}]
+By Proposition~\ref{prop:guards}, in the range $N\ge 6d-2$, $d\ge 4$, the subspaces $V_0 = U_0/[t(t-1)]$ (max degree $r=m-2$) and $V_1 = U/(t-1)$ (max degree $n=m-1$) satisfy $\gcd(V_0)=\gcd(V_1)=1$, with independent endpoints on $V_0$. Building $E$, a basis of $U$, $V_0$, $V_1$, and solving endpoint constraints for $f_0\in V_0$ with $f_0(0)=\operatorname{coeff}_r(f_0)=1$ take $O(N^3)$ add/mul, $O(N)$ inversions, and $O(N^2)$ storage.
+\begin{enumerate}[label=(\arabic*),leftmargin=2em]
+\item \emph{First pencil (reciprocal coprimality):} Apply Lemma~\ref{lem:reverse-gcd} with $a=f_0$, $W=V_0$, and $\phi(f)=\operatorname{coeff}_r(f)-f(0)\not\equiv 0$ (using $r+2=m\le 2N$ scalars) to obtain $f_1\in V_0$ with $\gcd(f_0,f_1)=1$ and $\phi(f_1)\ne 0$. Along the pencil $f_Z = f_0 + Zf_1$, the reciprocal resultant $\operatorname{Res}(f_Z,\rev_r f_Z)$ and endpoint products have total degree $\le 2r+2$, so testing at most $2r+3 = 2m-1 < 2N$ scalars from the supplied list deterministically yields a monic $f\in V_0$ with $f(0)\ne 0$ and $\gcd(f,\rev_r f)=1$.
+\item \emph{Second pencil (legal generator $g$):} Put $h_0=tf\in V_1$ (monic of degree $n=m-1$) and $W=\{h\in V_1 : \operatorname{coeff}_n(h)=0\}$. Since $V_1 = k\cdot h_0\oplus W$ and $\gcd(V_1)=1$, we have $\gcd(h_0,W)=1$. Apply Lemma~\ref{lem:reverse-gcd} with $a=h_0$ and this $W$ (using $n+2=m+1\le 2N$ scalars) to obtain $h_1\in W$ with $\gcd(h_0,h_1)=1$ (hence $h_1(0)\ne 0$). Consider the monic pencil $g_Z = (t-1)(h_0 + Zh_1)\in U_1$. At $Z=0$, $g_0=t(t-1)f$ has full axis rank $\rank X_N(g_0)=N$ by Proposition~\ref{prop:guards}(c); moreover, reducing the axis-dependence condition modulo $g_Z$ in the affine $(N-1)\times 2d$ reciprocal-residue form gives an axis-minor degree $\le 2d$ in $Z$ (valid since $N-2d-1\ge 4d-3>0$), while $\deg_Z(\disc(g_Z))\le 2m-2$ and $\deg_Z(g_Z(0))=1$, for a combined guard degree $\le 2d + 2m - 1 = 2N-1$. Testing at most $2N$ distinct scalars from the supplied list (checking $g_Z(0)\ne 0$, $\gcd(g_Z,g_Z')=1$, and $\rank X_N(g_Z)=N$ via the $O(N^2)$ reduced axis test) deterministically returns a legal $g\in U_1$.
+\end{enumerate}
+Both reverse-GCD calls have $s,v,L=O(N)$ and cost $O(N^3)$ add/mul, $O(N^2)$ inversions, and $O(N^2)$ storage, as do the $O(N)$ pencil tests, establishing the theorem.
+\end{proof}
+
+\section{Relation to prior work and open problems}
+\label{sec:prior}
+
+We separate classical foundations from our grammar-specific results and record source-access transparency:
+\begin{itemize}[leftmargin=1.5em]
+\item \emph{Noncommutative $q$-binomial algebra and magnetic resolvents:} The quantum-binomial identity and $(A+D)^N=(\alpha^N+\beta^N)I$ for $DA=\zeta AD$ are classical (Holtz--Mehrmann--Schneider~\cite[Theorems~1--2]{HMS04} and Schlosser~\cite[Proposition~1]{Sch12}, both inspected in full). The cyclic resolvent matrix $I-\alpha S^\eps - \beta\zeta^j T^\delta$ with determinant/guard $1-\alpha^N-\beta^N$ appears as a specialization of the cyclic Hofstadter / lattice-walk operator of Ouvry--Wagner--Wu~\cite[Section~2.2, Eqs.~(7)--(8)]{OWW16} (inspected in full via \texttt{arXiv:1606.03273}) upon setting their reverse-shift and reverse-modulation parameters to zero. Finite odd-dimensional Weyl--Heisenberg character calculus is standard (Gross~\cite[Section~II.A--D]{Gro06}, inspected in full via \texttt{arXiv:quant-ph/0602001}). None of these sources studies additive minimization of signed Weyl resolvent banks synthesizing $F_N$.
+\item \emph{Prony--Hankel rank and displacement-structure decompositions:} Our $\Theta(N)$ lower bound (Theorem~\ref{thm:linear}) uses classical exponential-sum Hankel rank factorization (Potts--Tasche~\cite[Section~2]{PT10} and Peter--Plonka~\cite[Theorem~2.1]{PP13}, both inspected in full) combined with our new signed-triangle isolation on rows $b=\pm 1$. In structured linear algebra, displacement-rank theory (Heinig--Rost~\cite{HR84} and Kailath--Sayed~\cite{KS95}, reviewed via standard bibliographic/secondary summaries rather than full-text inspection) uses the DFT to transform Toeplitz-like matrices into Cauchy-like matrices for fast inversion; by contrast, our problem decomposes $F_N$ itself as a minimal additive sum of cyclic Weyl resolvent banks.
+\item \emph{Deterministic scalar-span coprime selection:} In Theorem~\ref{thm:cubic}, deterministic polynomial-time solvability of scalar-span coprime selection (including repeated factors and an optional nonzero linear functional $\phi$) can already be deduced via a reduction to constructive Edmonds' problem for commuting/triangularizable matrix spaces (multiplication by $b_j$ modulo $a$, augmented by $\operatorname{diag}(M_j,\phi(b_j))$) using Ivanyos--Karpinski--Qiao--Santha~\cite[Theorem~2 and Section~5.2, Algorithm~1]{IKQS15} (inspected in full via \texttt{arXiv:1307.6429v2}). Materializing the multiplication matrices and running that general algorithm conservatively takes $O(N^7)$ field operations at $s,v,L=O(N)$, whereas our Lemma~\ref{lem:reverse-gcd} preserves the compact polynomial representation and gives a direct schoolbook $O((s+v)L^2)$ selector and $O(N^3)$ deterministic coefficient stage without claiming historical priority over all possible structured specializations.
+\end{itemize}
+
+\subsection*{Open problems}
+\begin{enumerate}[label=(\arabic*),leftmargin=2em]
+\item \emph{Exact minima for $N\ge 9$ and optimal linear constant:} Theorem~\ref{thm:linear} and Theorem~\ref{thm:five-thirds} bracket $\M_{\C}(N;q)$ between $\frac{1}{2}N + O(1)$ and $\frac{5}{3}N + O(1)$ for odd $N\ge 23$, while Theorem~\ref{thm:small} determines $(4,5,8)$ at $N=3,5,7$ and $\M_k(9;q)\ge 6$. Determine $\M_{\C}(9;q)$ and the asymptotic ratio $\lim_{N\to\infty}\M_{\C}(N;q)/N$.
+\item \emph{Cyclotomic base-field attainment at $N=7$:} Our $8$-bank construction at $N=7$ (Section~\ref{sec:n7upper}) lives in a cubic splitting field over $\Q(\zeta_7)$. Does there exist an $8$-bank representation of $F_7$ with all parameters and weights wholly inside $\Q(\zeta_7)$?
+\item \emph{Positive-characteristic small orders:} Extend the characteristic-zero lower bounds $\M_k(5;q)\ge 5$ and $\M_k(7;q)\ge 8$ to arbitrary prime characteristics $p\nmid N$ (identifying any exceptional small primes where the elimination residues vanish).
+\item \emph{Structured splitting and shared evaluation:} Can a family of generator polynomials $g\in U$ be engineered to split over a low-degree (polynomial-degree) extension of $k$, or admit shared subcubic evaluation across the $B$ banks?
+\end{enumerate}
+
+\section*{Data and code availability}
+All verification artifacts are publicly available at
+\begin{center}
+\url{https://github.com/AgentSlop-Si/weyl-resolvent-fourier-banks}
+\end{center}
+and consist of:
+\begin{enumerate}[label=(\arabic*),leftmargin=2em]
+\item A standalone Python verification script (\texttt{verify\_weyl\_resolvent\_banks.py}, standard library only) using exact cyclotomic, finite-field, and cubic-algebra arithmetic to verify the all-field order-$3$ $4$-bank synthesis (including literal $3\times 3$ branch inversion over $\Q(\zeta_3)$, $\F_4$, and $\F_7$), the order-$5$ lower-bound residues and literal $5$-bank $5\times 5$ synthesis over $\Q(\zeta_5)$, the order-$7$ B\'ezout certificate $U\overline{R}+V\overline{E}=1$ in $\F_{29}[Y]$ and literal $8$-bank cubic-algebra trace synthesis of all $49$ entries of $F_7$, the order-$9$ certificate modulo $\Phi_9$ and Fourier Hankel ranks for $3\le N\le 19$, the first-order cancellation operator $L_x$ and whole-left envelope inclusion over $\F_{47}$ ($N=23,d=4$), $\F_{71}$ ($N=35,d=6$), and characteristic-$2$ $\F_{64}$ ($N=63,d=10$), and the deterministic reverse-GCD cubic coefficient generator (Lemma~\ref{lem:reverse-gcd} and Theorem~\ref{thm:cubic}).
+\item A zero-dependency Lean~4 formal verification file (\texttt{WeylResolventFourierBanks.lean}, verified in Lean~4.36.0 using core \texttt{Init} only, with zero \texttt{sorry}, zero custom axioms, and pure kernel reduction) symbolically proving Lemma~\ref{lem:four-orient} (exclusive points and square coverage for all odd $N\ge 3$), the Hankel bank-count inequality of Theorem~\ref{thm:linear}, all range and guard-degree inequalities of Theorem~\ref{thm:five-thirds} ($N\ge 6d-2$, $H<(N+1)^2/2$), and the $2v-1$ telescoping trial bound~\eqref{eq:trial-telescope} of Lemma~\ref{lem:reverse-gcd}; and kernel-verifying the exact $\Z[\zeta_5]$ lower-bound residues and upper-bound determinants of Section~\ref{sec:n5}, the $\F_{29}[Y]$ order-$7$ B\'ezout identity of Proposition~\ref{prop:n7-bezout}, the $\Z[\zeta_9]$ order-$9$ identity of Theorem~\ref{thm:small}(d), and the literal $\F_7$ $4$-bank $3\times 3$ matrix synthesis of $F_3$.
+\end{enumerate}
+
+\bibliographystyle{amsplain}
+\bibliography{references}
+
+\end{document}
